@@ -1,26 +1,24 @@
-from typing import Callable
-from uuid import UUID
 from abc import ABC, abstractmethod
-
 from domain.models.character import Character
+
 
 class CharacterRepository(ABC):
     @abstractmethod
-    def get_character_by_id(self, character_id: UUID) -> Character | None:
-        """Retrieve a character by its unique identifier."""
+    def save(self, character: Character) -> Character:
+        """Persist a character and return it."""
 
     @abstractmethod
-    def save_character(self, character: Character) -> Character:
-        """Save or update a character in the repository.""" 
+    def get_by_id(self, character_id: str) -> Character | None:
+        """Return a character by id, or None if not found."""
 
     @abstractmethod
-    def delete_character(self, character_id: UUID) -> Character:
-        """Delete a character from the repository by its unique identifier."""
+    def list_by_player(self, player_id: str) -> list[Character]:
+        """Return all characters belonging to a player."""
 
     @abstractmethod
-    def list_characters(self, filter_func: Callable[[Character], bool]) -> list[Character]:
-        """List all characters, optionally filtered by a provided function."""
+    def list_all(self) -> list[Character]:
+        """Return all characters."""
 
     @abstractmethod
-    def save(self, character: Character) -> None:
-        """Alias for save_character method."""
+    def delete(self, character_id: str) -> bool:
+        """Delete a character. Returns True if deleted, False if not found."""
